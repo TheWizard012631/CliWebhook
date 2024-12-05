@@ -1,4 +1,5 @@
 from socket import inet_aton
+from datetime import datetime
 from argparse import ArgumentParser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -10,10 +11,9 @@ def die(msg=None):
 parser = ArgumentParser(
     prog='CliWebhook.py',
     description='Small and simple CLI webhook receiver for developpers and pentesters',
-    epilog='Made by TheWizard',
 )
 
-parser.add_argument('-p', '--port', type=int, help='Listening port', default=5050, required=False)
+parser.add_argument('-p', '--port', type=int, help='Listening port', default=3030, required=False)
 parser.add_argument('-a', '--address', type=str, help='Listening address', default='0.0.0.0', required=False)
 parser.add_argument('-r', '--response', type=str, help='Response content', default='This is a webhook receiver', required=False)
 parser.add_argument('-c', '--response-code', type=int, help='Response code', default=200, required=False)
@@ -40,14 +40,16 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        print(f'--------------------- New {self.command} request from {self.client_address[0]}:{self.client_address[1]} -----------------------------')
+        print(f'{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")} -> New {self.command} request from {self.client_address[0]}:{self.client_address[1]} ' + '-'*28)
+        print('v'*88)
+
         print(f'{self.raw_requestline.decode("utf-8")}', end='')
         print(f'{self.headers.as_string()}', end='')
 
         length = self.headers.get('Content-Length')
         if (length != None):
             print(self.rfile.read(int(length)).decode('utf-8'))
-        print('----------------------------------------------------------------------------------------')
+        print('^'*88)
 
         if (self.wfile.writable):
             self.send_response(RESPONSE_CODE)
