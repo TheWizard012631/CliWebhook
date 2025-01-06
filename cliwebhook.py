@@ -40,7 +40,7 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        print(f'{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")} -> New {self.command} request from {self.client_address[0]}:{self.client_address[1]} ' + '-'*28)
+        print(f'{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")} -> New {self.command} request from {self.client_address[0]}:{self.client_address[1]} '.ljust(88, '-'))
         print('v'*88)
 
         print(f'{self.raw_requestline.decode("utf-8")}', end='')
