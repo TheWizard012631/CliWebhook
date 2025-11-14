@@ -74,7 +74,6 @@ class Handler(BaseHTTPRequestHandler):
         RESPONSE_HEADERS['Access-Control-Max-Age'] = '1800'
         self.do_GET()
 
-    # do_GET = handle
     do_PUT = do_GET
     do_POST = do_GET
     do_HEAD = do_GET
